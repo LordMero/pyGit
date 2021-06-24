@@ -27,12 +27,22 @@ class git_api():
         return [r['name'] for r in j]
            
     def create_repo(self, name):
-        r = req.post('https://api.github.com/user/repos', json={'name': name}, headers=self.header)
-        print(r.status_code)
+        h = self.header
 
-    def delete_repo(self, name):
-        pass
-    
+        h['Accept'] = 'application/vnd.github.v3+json'
+
+        r = req.post('https://api.github.com/user/repos', json={'name': name}, headers=h)
+        return r.status_code
+
+    def delete_repo(self, name, uname='LordMero'):
+        
+        h = self.header
+
+        h['Accept'] = 'application/vnd.github.v3+json'
+
+        r = req.delete(f'https://api.github.com/repos/{uname}/{name}', headers=h)
+        return r.status_code
+
 @dataclass 
 class pretty_json():
     json: dict
@@ -47,6 +57,10 @@ if __name__ == "__main__":
     g = git_api(token=os.environ['GITTOKEN'])
 
 
-    #g.create_repo('ciccio')
+    #g.create_repo('ciccio22')
+
+    print(g.list_repos())
+
+    g.delete_repo('ciccio')
 
     print(g.list_repos())
