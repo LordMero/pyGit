@@ -6,6 +6,9 @@ import json
 import os
 import argparse
 
+from rich.console import Console
+from rich.table import Table
+
 GURL = "https://api.github.com"
 
 @dataclass
@@ -41,6 +44,28 @@ class git_api():
 
         r = req.delete(f'{GURL}/repos/{uname}/{name}', headers=h)
         return r.status_code
+
+
+@dataclass
+class PrettyTable():
+    table_name: str
+    lst: list
+    
+    def __make_table(self):
+
+        table = Table(title=self.table_name)
+        table.add_column("Index", justify="right", style="cyan")
+        table.add_column("Repository", justify="left", style="Magenta")
+
+        for i, l in  enumerate(self.lst):
+            table.add_row(str(i), l)
+
+        return table
+
+    def print(self):
+        console = Console()
+        console.print(self.__make_table())
+
 
 
 if __name__ == "__main__": 
@@ -81,5 +106,6 @@ if __name__ == "__main__":
             print(f"Repo {args.delete} has been deleted!")
 
     if args.list is not None:
-        print(g.list_repos(user))
+        repos = PrettyTable("Repositories", g.list_repos(user))
+        repos.print()
 
