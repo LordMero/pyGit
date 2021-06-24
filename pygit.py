@@ -12,7 +12,7 @@ from rich.table import Table
 GURL = "https://api.github.com"
 
 @dataclass
-class git_api():
+class GitApi():
     token: str 
 
     @property
@@ -81,9 +81,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.token is None:
-        g = git_api(token=os.environ['GITTOKEN'])
+        g = GitApi(token=os.environ['GITTOKEN'])
     else:
-        g = git_api(token=args.token)
+        g = GitApi(token=args.token)
         
     if args.user is None:
         user = 'LordMero'
