@@ -17,32 +17,32 @@ class GitApi():
 
     @property
     def header(self):
-      return {'Authorization' : f'token {self.token}'}
+      return {"Authorization" : f"token {self.token}"}
 
     def get(self, url=None):
         
         return req.get(url, headers=self.header)
     
-    def list_repos(self, uname='LordMero'):
-        j = req.get(f'{GURL}/users/{uname}/repos', params={'per_page': '1000'}).json()
+    def list_repos(self, uname="LordMero"):
+        j = req.get(f"{GURL}/users/{uname}/repos", params={'per_page': "1000"}).json()
 
-        return [{'name': r['name'], 'url' : r['ssh_url'], "updated_at": r["updated_at"].split("T")[0]}for r in j]
+        return [{"name": r["name"], "url" : r["ssh_url"], "updated_at": r["updated_at"].split("T")[0]}for r in j]
            
     def create_repo(self, name):
         h = self.header
 
-        h['Accept'] = 'application/vnd.github.v3+json'
+        h["Accept"] = "application/vnd.github.v3+json"
 
-        r = req.post(f'{GURL}/user/repos', json={'name': name}, headers=h)
+        r = req.post(f"{GURL}/user/repos", json={"name": name}, headers=h)
         return r.status_code
 
-    def delete_repo(self, name, uname='LordMero'):
+    def delete_repo(self, name, uname="LordMero"):
         
         h = self.header
 
-        h['Accept'] = 'application/vnd.github.v3+json'
+        h["Accept"] = "application/vnd.github.v3+json"
 
-        r = req.delete(f'{GURL}/repos/{uname}/{name}', headers=h)
+        r = req.delete(f"{GURL}/repos/{uname}/{name}", headers=h)
         return r.status_code
 
 
@@ -109,7 +109,7 @@ def main(ags):
             os.system(f"git remote add {args.remote} git@github.com:{user}/{args.create}")
 
     if args.delete is not None:
-        print(f'I am trying to delete {args.delete} for user {user}')
+        print(f"I am trying to delete {args.delete} for user {user}")
         r = g.delete_repo(args.delete, user)
         print(r)
         if r == str(204):
