@@ -52,14 +52,13 @@ class pretty_json():
     def __str__(self):
         return json.dumps(self.json,  indent = 1)
 
+
 if __name__ == "__main__": 
-
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-c", "--create", help="Name for the remote repository you want to create")
     parser.add_argument("-d", "--delete", help="Name for the remote repository you want to delete")
-    parser.add_argument("-l", "--list", help="List remote repositories", nargs='?')
+    parser.add_argument("-l", "--list", help="List remote repositories", action='store_true')
     parser.add_argument("-u", "--user", help="Specify username")
     parser.add_argument("-t", "--token", help="Specify Github API token")
 
@@ -84,7 +83,6 @@ if __name__ == "__main__":
         r = g.delete_repo(args.delete, user)
         if r == 204:
             print(f"Repo {args.delete} has been deleted!")
-
 
     if args.list is not None:
         print(g.list_repos(user))
