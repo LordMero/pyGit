@@ -24,7 +24,7 @@ class GitApi():
         return req.get(url, headers=self.header)
     
     def list_repos(self, uname='LordMero'):
-        j = req.get(f'{GURL}/users/{uname}/repos').json()
+        j = req.get(f'{GURL}/users/{uname}/repos', params={'per_page': '1000'}).json()
 
         return [{'name': r['name'], 'url' : r['ssh_url'], "updated_at": r["updated_at"].split("T")[0]}for r in j]
            
