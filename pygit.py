@@ -26,7 +26,7 @@ class GitApi():
     def list_repos(self, uname='LordMero'):
         j = req.get(f'{GURL}/users/{uname}/repos').json()
 
-        return [{'name': r['name'], 'url' : r['ssh_url']}for r in j]
+        return [{'name': r['name'], 'url' : r['ssh_url'], "updated_at": r["updated_at"].split("T")[0]}for r in j]
            
     def create_repo(self, name):
         h = self.header
@@ -54,12 +54,12 @@ class PrettyTable():
     def __make_table(self):
 
         table = Table(title=self.table_name)
-        table.add_column("Index", justify="right", style="cyan")
+        table.add_column("Last Update", justify="right", style="cyan")
         table.add_column("Repository", justify="left", style="Magenta")
         table.add_column("URL", justify="left", style="green")
         
-        for i, l in  enumerate(self.lst):
-            table.add_row(str(i), l["name"], l["url"])
+        for l in  self.lst:
+            table.add_row(l["updated_at"], l["name"], l["url"])
 
         return table
 
