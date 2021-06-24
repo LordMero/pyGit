@@ -2,10 +2,9 @@
 
 from dataclasses import dataclass
 import requests as req
-import sys 
-import os 
 import json 
-
+import os
+import argparse
 
 GURL = "https://api.github.com"
 
@@ -54,20 +53,39 @@ class pretty_json():
         return json.dumps(self.json,  indent = 1)
 
 if __name__ == "__main__": 
-    import time
 
-    g = git_api(token=os.environ['GITTOKEN'])
 
-    print(g.list_repos())
+    parser = argparse.ArgumentParser()
 
-    """ 
-    g.create_repo('ciccio')
-    time.sleep(1)
+    parser.add_argument("-c", "--create", help="Name for the remote repository you want to create")
+    parser.add_argument("-d", "--delete", help="Name for the remote repository you want to delete")
+    parser.add_argument("-l", "--list", help="List remote repositories", nargs='?')
+    parser.add_argument("-u", "--user", help="Specify username")
+    parser.add_argument("-t", "--token", help="Specify Github API token")
 
-    print(g.list_repos())
+    args = parser.parse_args()
 
-    g.delete_repo('ciccio')
-    
-    time.sleep(2)
-    print(g.list_repos())
-    """
+    if args.token is None:
+        g = git_api(token=os.environ['GITTOKEN'])
+    else:
+        g = git_api(token=args.token)
+        
+    if args.user is None:
+        user = 'LordMero'
+    else:
+        user = args.user
+
+    if args.create is not None: 
+        r = g.create_repo(args.create)
+        if r == 201:
+          print(f"Repo {args.create} has been created! Remember to run git init locally.")
+
+    if args.delete is not None:
+        r = g.delete_repo(args.delete, user)
+        if r == 204:
+            print(f"Repo {args.delete} has been deleted!")
+
+
+    if args.list is not None:
+        print(g.list_repos(user))
+
