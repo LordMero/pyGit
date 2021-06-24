@@ -73,6 +73,7 @@ def parse():
     parser.add_argument("-c", "--create", help="Name for the remote repository you want to create")
     parser.add_argument("-d", "--delete", help="Name for the remote repository you want to delete")
     parser.add_argument("-l", "--list", help="List remote repositories", action='store_true')
+    parser.add_argument("-r", "--remote", help="If you don't want to use origin as remote bind.")
     parser.add_argument("-u", "--user", help="Specify username")
     parser.add_argument("-t", "--token", help="Specify Github API token")
 
@@ -91,18 +92,27 @@ def main(ags):
 
     if args.create is not None: 
         r = g.create_repo(args.create)
-        if r == 201:
+        if r == int(201):
           print(f"Repo {args.create} has been created!")
           print("")
-          ans = input("Do you want to run git init? [y]/n", "s") or "y"
+          ans = input("Do you want to run git init? [y]/n ") or "y"
           if ans == "y":
-            os.systmet("git init")
+            os.system("git init")
           else:
             print("Ok.")
+        
+        if args.remote is  None:
+            print(f"Adding {args.create} to remote repo as origin.")
+            os.system(f"git remote add origin git@github.com:{user}/{args.create}")
+        elif args.remote is not None:
+            print(f"Adding {args.create} to remote repo as {args.remote}")
+            os.system(f"git remote add {args.remote} git@github.com:{user}/{args.create}")
 
     if args.delete is not None:
+        print(f'I am trying to delete {args.delete} for user {user}')
         r = g.delete_repo(args.delete, user)
-        if r == 204:
+        print(r)
+        if r == str(204):
             print(f"Repo {args.delete} has been deleted!")
 
     if args.list is not None:
