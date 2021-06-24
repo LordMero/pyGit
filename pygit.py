@@ -67,9 +67,7 @@ class PrettyTable():
         console = Console()
         console.print(self.__make_table())
 
-
-
-if __name__ == "__main__": 
+def parse():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("-c", "--create", help="Name for the remote repository you want to create")
@@ -78,8 +76,9 @@ if __name__ == "__main__":
     parser.add_argument("-u", "--user", help="Specify username")
     parser.add_argument("-t", "--token", help="Specify Github API token")
 
-    args = parser.parse_args()
+    return parser.parse_args()
 
+def main(ags):
     if args.token is None:
         g = GitApi(token=os.environ['GITTOKEN'])
     else:
@@ -110,3 +109,7 @@ if __name__ == "__main__":
         repos = PrettyTable("Repositories", g.list_repos(user))
         repos.print()
 
+
+if __name__ == "__main__": 
+    args = parse()
+    main(args)
