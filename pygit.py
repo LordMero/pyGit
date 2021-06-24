@@ -42,16 +42,6 @@ class git_api():
         r = req.delete(f'{GURL}/repos/{uname}/{name}', headers=h)
         return r.status_code
 
-@dataclass 
-class pretty_json():
-    json: dict
-
-    def __get__(self):
-        return self.json
-
-    def __str__(self):
-        return json.dumps(self.json,  indent = 1)
-
 
 if __name__ == "__main__": 
     parser = argparse.ArgumentParser()
@@ -77,7 +67,13 @@ if __name__ == "__main__":
     if args.create is not None: 
         r = g.create_repo(args.create)
         if r == 201:
-          print(f"Repo {args.create} has been created! Remember to run git init locally.")
+          print(f"Repo {args.create} has been created!")
+          print("")
+          ans = input("Do you want to run git init? [y]/n", "s") or "y"
+          if ans == "y":
+            os.systmet("git init")
+          else:
+            print("Ok.")
 
     if args.delete is not None:
         r = g.delete_repo(args.delete, user)
