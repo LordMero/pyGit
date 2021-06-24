@@ -4,5 +4,5 @@ pyGIT is an unitility that uses github api to handle remote repositories actions
 
 
 # TODO:
-*Create a TUI for the application
-*Fix a bug by which delete doesn't work anymore
+* Create a TUI for the application
+* Fix a bug by which delete doesn't work anymore
