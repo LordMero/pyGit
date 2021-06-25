@@ -1,5 +1,5 @@
-import setuptools, find_packages
-from __init__ import __version__, __author__
+from setuptools import setup, find_packages
+from pygit import __version__, __author__
 
 setup(
         name="pygit",

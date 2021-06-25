@@ -79,7 +79,7 @@ def parse():
 
     return parser.parse_args()
 
-def main(ags):
+def init(args):
     if args.token is None:
         g = GitApi(token=os.environ['GITTOKEN'])
     else:
@@ -119,7 +119,9 @@ def main(ags):
         repos = PrettyTable("Repositories", g.list_repos(user))
         repos.print()
 
+def main():
+    args = parse()
+    init(args)
 
 if __name__ == "__main__": 
-    args = parse()
-    main(args)
+    main()

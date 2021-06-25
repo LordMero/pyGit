@@ -1,0 +1,3 @@
+[console_scripts]
+pygit = pygit.pygit:main
+
