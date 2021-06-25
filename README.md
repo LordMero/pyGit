@@ -1,6 +1,6 @@
 # pyGIT
 
-pyGIT is an unitility that uses github api to handle remote repositories actions like creation, list and deletion right from the terminal. 
+pyGIT is a Python3 utility that uses github api to handle remote repositories actions like creation, list and deletion right from the terminal. 
 
 # Features
 with pyGit you can: 
@@ -12,7 +12,7 @@ pyGit only depends on [Rich](https://rich.readthedocs.io/en/latest/introduction.
 By the way, this project is awesome! You should really check it out.
 
 # Installation
-* Clone the repo and use pip install -e . to install.
+* Clone the repo and use pip3 install . to install.
 
 # TODO
 * Create a TUI for the application
