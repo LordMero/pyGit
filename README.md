@@ -11,7 +11,7 @@ with pyGit you can:
 pyGit only depends on [Rich](https://rich.readthedocs.io/en/latest/introduction.html), a python library for rich text (with color and style) to the terminal.
 By the way, this project is awesome! You should really check it out.
 
-# Installation:
+# Installation
 * Clone the repo and use pip install -e . to install.
 
 # TODO:
