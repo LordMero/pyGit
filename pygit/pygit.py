@@ -5,6 +5,7 @@ import requests as req
 import json 
 import os
 import argparse
+import time 
 
 from rich.console import Console
 from rich.table import Table
@@ -30,16 +31,13 @@ class GitApi():
            
     def create_repo(self, name):
         h = self.header
-
         h["Accept"] = "application/vnd.github.v3+json"
 
         r = req.post(f"{GURL}/user/repos", json={"name": name}, headers=h)
         return r.status_code
 
     def delete_repo(self, name, uname="LordMero"):
-        
         h = self.header
-
         h["Accept"] = "application/vnd.github.v3+json"
 
         r = req.delete(f"{GURL}/repos/{uname}/{name}", headers=h)
@@ -52,7 +50,6 @@ class PrettyTable():
     lst: list
     
     def __make_table(self):
-
         table = Table(title=self.table_name)
         table.add_column("Last Update", justify="right", style="cyan")
         table.add_column("Repository", justify="left", style="Magenta")
@@ -109,11 +106,15 @@ def init(args):
             os.system(f"git remote add {args.remote} git@github.com:{user}/{args.create}")
 
     if args.delete is not None:
-        print(f"I am trying to delete {args.delete} for user {user}")
         r = g.delete_repo(args.delete, user)
-        print(r)
+        print(f"Deleting {args.delete}... Please wait.")
+        time.sleep(5)
+
         if r == str(204):
             print(f"Repo {args.delete} has been deleted!")
+
+        elif r== str(401):
+            print(f"Can't delete {args.delete}. Make sure your token has delete_repo scope.")
 
     if args.list is not None:
         repos = PrettyTable("Repositories", g.list_repos(user))
