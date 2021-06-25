@@ -14,7 +14,7 @@ By the way, this project is awesome! You should really check it out.
 # Installation
 * Clone the repo and use pip install -e . to install.
 
-# TODO:
+# TODO
 * Create a TUI for the application
 	- Should allow to clone public repositories withouth copy and paste
 	- Should allow to make creation and deltion of repositories a bit more interactive
