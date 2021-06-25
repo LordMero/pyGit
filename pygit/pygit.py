@@ -64,26 +64,34 @@ class PrettyTable():
         console = Console()
         console.print(self.__make_table())
 
+def env_handler(env):
+    try:
+        return os.environ[env]
+    except KeyError as inst:
+       print(f"{env} is not defined. Please check help.")
+       raise
+
 def parse():
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description="pyGit allows you to manage remore repositories on github right from your terminal!")
 
     parser.add_argument("-c", "--create", help="Name for the remote repository you want to create")
     parser.add_argument("-d", "--delete", help="Name for the remote repository you want to delete")
     parser.add_argument("-l", "--list", help="List remote repositories", action='store_true')
     parser.add_argument("-r", "--remote", help="If you don't want to use origin as remote bind.")
-    parser.add_argument("-u", "--user", help="Specify username")
-    parser.add_argument("-t", "--token", help="Specify Github API token")
+    parser.add_argument("-u", "--user", help="Specify username or set GITUSER")
+    parser.add_argument("-t", "--token", help="Specify Github API token or set GITTOKEN")
 
     return parser.parse_args()
 
 def init(args):
     if args.token is None:
-        g = GitApi(token=os.environ['GITTOKEN'])
+        token = env_handler("GITTOKEN")
+        g = GitApi(token)
     else:
         g = GitApi(token=args.token)
         
     if args.user is None:
-        user = 'LordMero'
+        user = env_handler("GITUSER")
     else:
         user = args.user
 
